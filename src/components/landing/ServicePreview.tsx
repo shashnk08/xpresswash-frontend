@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 const services = [
   {
@@ -9,6 +9,13 @@ const services = [
     description: "Quick exterior wash and dry for a spotless shine in minutes.",
     price: 299,
     durationMinutes: 20,
+    inclusions: [
+      "Exterior hand wash",
+      "Drying with microfiber towels",
+      "Tire shine",
+      "Window cleaning",
+      "Quick vacuum (front seats)",
+    ],
   },
   {
     id: 2,
@@ -16,6 +23,17 @@ const services = [
     description: "Full interior and exterior cleaning, vacuum, polish, and wax.",
     price: 899,
     durationMinutes: 60,
+    inclusions: [
+      "Full exterior wash & dry",
+      "Clay bar treatment",
+      "Hand wax application",
+      "Complete interior vacuum",
+      "Dashboard & console cleaning",
+      "Leather/vinyl conditioning",
+      "Window cleaning (inside & out)",
+      "Tire & wheel deep clean",
+      "Air freshener",
+    ],
   },
   {
     id: 3,
@@ -23,12 +41,22 @@ const services = [
     description: "Deep cleaning and disinfection for a safe, hygienic ride.",
     price: 499,
     durationMinutes: 40,
+    inclusions: [
+      "Exterior wash & dry",
+      "Interior steam cleaning",
+      "AC vent disinfection",
+      "Antibacterial wipe-down",
+      "Seat & upholstery sanitization",
+      "Door handles & high-touch areas",
+      "Trunk cleaning",
+      "Air purifier treatment",
+    ],
   },
 ];
 
 export function ServicesPreview() {
   return (
-    <section id="popular-services" className="py-24 bg-[#0B1220]">
+    <section id="popular-services" className="py-24" style={{ backgroundColor: '#204264' }}>
       <div className="mx-auto max-w-7xl px-6">
         <header className="text-center">
           <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-3 tracking-tight drop-shadow-lg">Popular Services</h2>
@@ -51,7 +79,7 @@ export function ServicesPreview() {
                 }}
                 transition={{ duration: 0.35 }}
                 className={[
-                  "relative flex flex-col items-center justify-between min-h-[410px] p-10",
+                  "relative flex flex-col items-center justify-between min-h-[480px] p-8",
                   "rounded-[24px] border border-[#1E293B]/30 backdrop-blur-xl",
                   "bg-white/10",
                   "shadow-[0_8px_40px_0_rgba(37,99,235,0.10)]",
@@ -77,14 +105,28 @@ export function ServicesPreview() {
                 >
                   {service.durationMinutes} mins
                 </span>
+
                 {/* Card content */}
                 <h3 className="text-2xl font-bold text-white mb-3 text-center drop-shadow-md">
                   {service.name}
                 </h3>
-                <p className="text-base text-[#94a3b8] text-center mb-6 flex-grow" style={{ lineHeight: 1.6 }}>
+
+                <p className="text-base text-[#94a3b8] text-center mb-4 flex-grow" style={{ lineHeight: 1.6 }}>
                   {service.description}
                 </p>
-                <div className="flex items-center justify-between w-full mt-6">
+
+                {/* Inclusions list */}
+                <div className="w-full mb-6">
+                  <h4 className="text-sm font-semibold text-cyan-300 mb-2">Includes:</h4>
+                  <ul className="space-y-1.5 text-sm text-[#cbd5e1] list-disc pl-4">
+                    {service.inclusions.map((inclusion, idx) => (
+                      <li key={idx}>{inclusion}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Price & Book button */}
+                <div className="flex items-center justify-between w-full mt-4">
                   <span className="text-2xl font-bold text-cyan-300 drop-shadow-md">
                     ₹{service.price}
                   </span>

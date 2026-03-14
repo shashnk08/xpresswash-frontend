@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export function CTA() {
   const navigate = useNavigate();
   return (
-    <section className="py-28 bg-primary text-white text-center">
+    <section className="py-15 bg-primary text-white text-center">
       <h2 className="text-3xl font-bold">
         Ready to service your car the smart way?
       </h2>

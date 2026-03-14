@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 
 // Import the hero background image
@@ -7,6 +7,23 @@ const heroBgUrl = "/media/xpresswashjpeg.jpeg";
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const headlines = [
+    "Booked in Minutes!",
+    "#1 Steam Washing Service in India.",
+    "Doorstep Car Cleaning.",
+    "Premium Car Care Experts.",
+  ];
+
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % headlines.length);
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -47,7 +64,7 @@ export function Hero() {
         aria-hidden="true"
       />
 
-      {/* Text content - Fully left-aligned */}
+      {/* Text content */}
       <div className="relative z-10 max-w-7xl px-6 py-28 md:px-12 w-full text-left">
         <motion.h1
           initial={{ opacity: 0, y: 12 }}
@@ -56,7 +73,20 @@ export function Hero() {
         >
           Premium Car Service.
           <br />
-          <span className="text-white">Booked in Minutes!</span>
+
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={headlines[index]}
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -25 }}
+              transition={{ duration: 0.6 }}
+              className="text-white block"
+            >
+              {headlines[index]}
+            </motion.span>
+          </AnimatePresence>
+
         </motion.h1>
 
         <motion.p
@@ -65,7 +95,8 @@ export function Hero() {
           transition={{ delay: 0.1, duration: 0.4 }}
           className="mt-6 text-lg text-white max-w-xl"
         >
-          Hassle-free car servicing with transparent pricing, expert technicians, and real-time booking — all from your phone.
+          Hassle-free car servicing with transparent pricing, expert technicians,
+          and real-time booking — all from your phone.
         </motion.p>
 
         <motion.div
@@ -76,8 +107,11 @@ export function Hero() {
         >
           <Button
             variant="secondary"
+            style={{ backgroundColor: '#4169E1', color: '#fff', border: 'none' }}
             onClick={() => {
-              const section = document.querySelector("section[id='popular-services']");
+              const section = document.querySelector(
+                "section[id='popular-services']"
+              );
               if (section) {
                 section.scrollIntoView({ behavior: "smooth" });
               }

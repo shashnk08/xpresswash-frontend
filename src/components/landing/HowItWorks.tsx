@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const steps = [
   "Choose your service",
@@ -6,52 +6,81 @@ const steps = [
   "Relax while we handle it",
 ];
 
+const images = ["service_pick", "calender", "car_wash"];
+
 export function HowItWorks() {
   const [visibleStep, setVisibleStep] = useState(0);
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      for (let i = 0; i < steps.length; i++) {
-        const ref = stepRefs.current[i];
-        if (ref) {
-          const rect = ref.getBoundingClientRect();
-          if (rect.top < window.innerHeight * 0.7 && visibleStep < i + 1) {
-            setVisibleStep(i + 1);
-            break;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = stepRefs.current.indexOf(
+            entry.target as HTMLDivElement
+          );
+
+          if (entry.isIntersecting) {
+            setVisibleStep((prev) => Math.max(prev, index + 1));
           }
-        }
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [visibleStep]);
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    stepRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section className="py-16 bg-background">
       <div className="mx-auto max-w-5xl px-6">
-        <h2 className="text-3xl font-bold mb-12 text-center">How It Works</h2>
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 w-full">
+
+        {/* Title */}
+        <h2 className="text-3xl font-bold mb-12 text-center">
+          How It Works
+        </h2>
+
+        {/* Steps container */}
+        <div className="relative flex flex-col md:flex-row items-center justify-between gap-12 w-full">
+
+          {/* Connecting line */}
+          <div className="hidden md:block absolute top-6 left-0 right-0 h-[2px] bg-gray-200 z-0" />
+
           {steps.map((step, i) => (
             <div
               key={step}
-              ref={(el) => (stepRefs.current[i] = el)}
-              style={{
-                opacity: visibleStep > i ? 1 : 0,
-                transform: visibleStep > i ? "translateY(0)" : "translateY(40px)",
-                transition: "opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1)",
+              ref={(el) => {
+                stepRefs.current[i] = el;
               }}
-              className="flex flex-col items-center gap-4 flex-1"
+              className={`relative z-10 flex flex-col items-center gap-4 flex-1 transition-all duration-700 ${
+                visibleStep > i
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
             >
-              <div className="h-12 w-12 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-lg mb-2">
+
+              {/* Step Number */}
+              <div className="h-12 w-12 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-lg mb-2 shadow-md">
                 {i + 1}
               </div>
-              <p className="font-medium text-lg text-center">{step}</p>
+
+              {/* Step Text */}
+              <p className="font-medium text-lg text-center">
+                {step}
+              </p>
+
+              {/* Step Image */}
               <img
-                src={`/media/${["service_pick", "calender", "car_wash"][i]}.png`}
+                src={`/media/${images[i]}.png`}
                 alt={step}
+                loading="lazy"
                 className="w-[200px] h-auto object-contain mt-4"
               />
+
             </div>
           ))}
         </div>

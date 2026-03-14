@@ -7,7 +7,7 @@ import { WhyUs } from "@/components/landing/WhyUs"
 import { CTA } from "@/components/landing/CTA"
 import { ServicesPreview } from "@/components/landing/ServicePreview"
 import { FAQSection } from "@/components/landing/FAQSection"
-import { AboutUsMinimal } from "@/components/landing/AboutUsMinimal"
+
 
 export default function Landing() {
   return (

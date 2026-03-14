@@ -63,7 +63,12 @@ export function Navbar() {
           >
             Contact
           </button>
-          <Button onClick={() => navigate("/bookings")}>Book Now</Button>
+          <Button
+            style={{ backgroundColor: 'var(--blue-main)', color: '#fff', border: 'none' }}
+            onClick={() => navigate("/bookings")}
+          >
+            Book Now
+          </Button>
         </nav>
       </div>
     </header>

@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { FaWhatsapp } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
 
 const faqs = [
   {
@@ -97,7 +99,8 @@ export function FAQSection() {
       {!showAll && faqs.length > 5 && (
         <div className="text-center mt-6">
           <button
-            className="px-6 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
+            className="px-6 py-2 text-white rounded transition"
+            style={{ backgroundColor: '#1E90FF' }}
             onClick={() => setShowAll(true)}
           >
             Show More
@@ -119,7 +122,34 @@ export function FAQSection() {
       )}
       <div className="mt-10 text-center text-base">
         Still have questions?<br />
-        Call us at <a href="tel:8123911197" className="text-primary font-semibold">8123911197</a> or message us on WhatsApp. We’re happy to help!
+        <div className="flex justify-center items-center gap-2 mt-2">
+          <span>
+            Call us at
+            <a href="tel:8123911197" className="text-primary font-semibold ml-1">8123911197</a>
+            or message us on
+          </span>
+          <a
+            href="https://wa.me/918123911197"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-green-500 font-semibold"
+          >
+            <FaWhatsapp className="text-xl" />
+            WhatsApp
+          </a>
+          <span>. We’re happy to help!</span>
+        </div>
+      </div>
+      <div className="mt-3 flex justify-center items-center gap-2">
+        <FaInstagram className="text-xl text-pink-500" />
+        <a
+          href="https://www.instagram.com/xpresswash_blr/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-pink-500 hover:underline"
+        >
+          Follow us on Instagram
+        </a>
       </div>
     </section>
   );

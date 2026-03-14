@@ -1,7 +1,7 @@
 export function AboutUsMinimal() {
   return (
-    <section className="py-12 bg-white">
-      <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center md:items-start gap-10">
+    <section className="bg-white">
+      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-10">
         <div className="flex-1 text-left">
           <h2 className="text-2xl font-bold mb-4">ABOUT US</h2>
           <p className="text-base text-gray-700">

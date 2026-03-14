@@ -14,7 +14,6 @@ export default function Landing() {
     <>
       <Navbar />
       <Hero />
-      <AboutUsMinimal />
       <ValueProps />
       <HowItWorks />
       <WhyUs />

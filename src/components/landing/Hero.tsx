@@ -17,6 +17,7 @@ export function Hero() {
 
   return (
     <section
+      id="hero-section"
       ref={containerRef}
       onMouseMove={handleMouseMove}
       className="group relative isolate overflow-hidden bg-background min-h-screen flex items-center"
@@ -73,7 +74,6 @@ export function Hero() {
           transition={{ delay: 0.2, duration: 0.4 }}
           className="mt-10 flex justify-start gap-4"
         >
-          <Button className="px-8">Book Service</Button>
           <Button
             variant="secondary"
             onClick={() => {

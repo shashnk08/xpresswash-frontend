@@ -71,7 +71,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl md:text-6xl font-bold tracking-tight text-white"
         >
-          Premium Car Service.
+          Premium Detailing Service!
           <br />
 
           <AnimatePresence mode="wait">

@@ -1,47 +1,63 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { supabase } from "@/lib/supabaseClient";
 
-const SERVICES = [
-  "Express Wash",
-  "Premium Detailing",
-  "Sanitization Package",
-  "Interior Deep Clean",
-  "Ceramic Protection"
-];
-
-const LOCATIONS = [
-  "Whitefield",
-  "Marathahalli",
-  "Indiranagar",
-  "HSR Layout",
-  "Koramangala",
-  "Electronic City",
-  "Bellandur",
-  "Sarjapur"
-];
-
-const ADDONS = [
-  "None",
-  "Interior Vacuum",
-  "Engine Cleaning",
-  "Wax Polish",
-  "Ceramic Spray Coating"
-];
+type Item = {
+  id: string;
+  label: string;
+};
 
 export default function Bookings() {
+  const [services, setServices] = useState<Item[]>([]);
+  const [locations, setLocations] = useState<Item[]>([]);
+  const [addons, setAddons] = useState<Item[]>([]);
+
   const [form, setForm] = useState({
     name: "",
     contact: "",
-    service: SERVICES[0],
-    location: LOCATIONS[0],
-    addon: ADDONS[0],
+    service: "",
+    location: "",
+    addon: "",
     date: "",
   });
 
   const [submitted, setSubmitted] = useState(false);
-
   const dateRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  useEffect(() => {
+    const loadData = async () => {
+      const { data: s } = await supabase
+        .from("config_services")
+        .select("id, label")
+        .eq("is_active", true);
+
+      const { data: l } = await supabase
+        .from("config_locations")
+        .select("id, label")
+        .eq("is_active", true);
+
+      const { data: a } = await supabase
+        .from("config_addons")
+        .select("id, label")
+        .eq("is_active", true);
+
+      setServices(s || []);
+      setLocations(l || []);
+      setAddons(a || []);
+
+      setForm((prev) => ({
+        ...prev,
+        service: s?.[0]?.label || "",
+        location: l?.[0]?.label || "",
+        addon: a?.[0]?.label || "",
+      }));
+    };
+
+    loadData();
+  }, []);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -57,25 +73,15 @@ Location: ${form.location}
 Add-on: ${form.addon}
 Date: ${form.date}`;
 
-    const whatsappUrl = `https://wa.me/9538926581?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/9538926581?text=${encodeURIComponent(
+      message,
+    )}`;
     window.open(whatsappUrl, "_blank");
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--blue-main)] via-[#1E3A8A] to-black p-6">
-
       <div className="w-full max-w-lg">
-
-        <div style={{ position: 'fixed', top: 24, left: 24, zIndex: 50 }}>
-          <button
-            type="button"
-            className="px-6 py-2 rounded-full font-semibold text-white bg-blue-500 hover:bg-blue-700 transition-all duration-300 shadow-lg"
-            onClick={() => window.location.href = '/'}
-          >
-            Go Back to Home
-          </button>
-        </div>
-
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white">Book Your Car Wash</h1>
@@ -93,116 +99,85 @@ Date: ${form.date}`;
             onSubmit={handleSubmit}
             className="bg-white/10 backdrop-blur-xl border border-white/10 shadow-xl rounded-2xl p-8 space-y-5"
           >
-
             {/* Name */}
-            <div>
-              <label className="block text-sm text-gray-200 mb-1">Customer Name</label>
-              <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                required
-                placeholder="Enter your name"
-                className="w-full px-4 py-2 rounded-lg bg-white/90 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              required
+              placeholder="Your Name"
+              className="w-full px-4 py-2 rounded-lg"
+            />
 
             {/* Contact */}
-            <div>
-              <label className="block text-sm text-gray-200 mb-1">Contact Details</label>
-              <div className="flex">
-                <span className="px-3 py-2 rounded-l-lg bg-white/90 border border-r-0 border-gray-300 text-gray-700 font-semibold">+91</span>
-                <input
-                  type="tel"
-                  name="contact"
-                  value={form.contact}
-                  onChange={handleChange}
-                  required
-                  placeholder="Phone number"
-                  pattern="[0-9]{10}"
-                  maxLength={10}
-                  className="w-full px-4 py-2 rounded-r-lg bg-white/90 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            </div>
+            <input
+              type="tel"
+              name="contact"
+              value={form.contact}
+              onChange={handleChange}
+              required
+              placeholder="Phone"
+              className="w-full px-4 py-2 rounded-lg"
+            />
 
             {/* Date */}
-            <div>
-              <label className="block text-sm text-gray-200 mb-1">Booking Date</label>
-              <input
-                ref={dateRef}
-                type="date"
-                name="date"
-                value={form.date}
-                onChange={handleChange}
-                required
-                min={new Date().toISOString().split("T")[0]}
-                onClick={() => dateRef.current?.showPicker()}
-                onFocus={() => dateRef.current?.showPicker()}
-                className="w-full px-4 py-2 rounded-lg bg-white/90 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
-              />
-            </div>
+            <input
+              ref={dateRef}
+              type="date"
+              name="date"
+              value={form.date}
+              onChange={handleChange}
+              required
+              min={new Date().toISOString().split("T")[0]}
+              className="w-full px-4 py-2 rounded-lg"
+            />
 
             {/* Service */}
-            <div>
-              <label className="block text-sm text-gray-200 mb-1">Service Needed</label>
-              <select
-                name="service"
-                value={form.service}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-lg bg-white/90 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {SERVICES.map((service) => (
-                  <option key={service} value={service}>
-                    {service}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <select
+              name="service"
+              value={form.service}
+              onChange={handleChange}
+              className="w-full px-4 py-2 rounded-lg"
+            >
+              {services.map((s) => (
+                <option key={s.id} value={s.label}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
 
             {/* Location */}
-            <div>
-              <label className="block text-sm text-gray-200 mb-1">Service Location</label>
-              <select
-                name="location"
-                value={form.location}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-lg bg-white/90 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {LOCATIONS.map((location) => (
-                  <option key={location} value={location}>
-                    {location}, Bangalore
-                  </option>
-                ))}
-              </select>
-            </div>
+            <select
+              name="location"
+              value={form.location}
+              onChange={handleChange}
+              className="w-full px-4 py-2 rounded-lg"
+            >
+              {locations.map((l) => (
+                <option key={l.id} value={l.label}>
+                  {l.label}
+                </option>
+              ))}
+            </select>
 
             {/* Addons */}
-            <div>
-              <label className="block text-sm text-gray-200 mb-1">Add-ons</label>
-              <select
-                name="addon"
-                value={form.addon}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-lg bg-white/90 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {ADDONS.map((addon) => (
-                  <option key={addon} value={addon}>
-                    {addon}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Button */}
-            <button
-              type="submit"
-              className="w-full py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 transition transform hover:scale-[1.02] shadow-lg"
+            <select
+              name="addon"
+              value={form.addon}
+              onChange={handleChange}
+              className="w-full px-4 py-2 rounded-lg"
             >
+              {addons.map((a) => (
+                <option key={a.id} value={a.label}>
+                  {a.label}
+                </option>
+              ))}
+            </select>
+
+            <button className="w-full py-3 rounded-lg bg-blue-500 text-white">
               Book Service 🚗
             </button>
-
           </form>
         )}
       </div>

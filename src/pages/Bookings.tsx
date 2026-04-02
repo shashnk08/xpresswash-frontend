@@ -91,13 +91,13 @@ Date: ${form.date}`;
         </div>
 
         {submitted ? (
-          <div className="bg-green-500/20 border border-green-400 text-green-200 p-6 rounded-xl text-center backdrop-blur">
+          <div className="bg-green-100 border border-green-400 text-green-700 p-6 rounded-xl text-center shadow-md">
             🎉 Your booking request has been sent!
           </div>
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="bg-white/10 backdrop-blur-xl border border-white/10 shadow-xl rounded-2xl p-8 space-y-5"
+            className="bg-white border border-gray-200 shadow-2xl rounded-2xl p-8 space-y-5 transition hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)]"
           >
             {/* Name */}
             <input

@@ -1,5 +1,3 @@
-
-
 import { Button } from "@/components/ui/Button";
 import { useNavigate } from "react-router-dom";
 
@@ -12,12 +10,16 @@ function scrollToSection(sectionId: string) {
 
 export function Navbar() {
   const navigate = useNavigate();
+
   return (
     <header className="sticky top-0 z-50 bg-background border-b border-muted/20">
-      <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+      <div className="mx-auto max-w-7xl px-6 py-2 flex items-center justify-between">
 
-        <span
-          className="text-xl font-semibold text-primary cursor-pointer"
+        {/* ✅ LOGO — slightly smaller and nudged left */}
+        <img
+          src="/media/final-logo.png"
+          alt="XPRESS WASH Logo"
+          className="h-12 md:h-16 -ml-2 w-auto object-contain cursor-pointer"
           onClick={() => {
             if (window.location.pathname === "/") {
               scrollToSection("hero-section");
@@ -26,10 +28,9 @@ export function Navbar() {
               setTimeout(() => scrollToSection("hero-section"), 100);
             }
           }}
-        >
-          XPRESS WASH
-        </span>
+        />
 
+        {/* NAVIGATION */}
         <nav className="flex items-center gap-6">
           <button
             className="text-base font-medium text-text hover:text-primary transition"
@@ -44,6 +45,7 @@ export function Navbar() {
           >
             Home
           </button>
+
           <button
             className="text-base font-medium text-text hover:text-primary transition"
             onClick={() => {
@@ -57,14 +59,16 @@ export function Navbar() {
           >
             Services
           </button>
+
           <button
             className="text-base font-medium text-text hover:text-primary transition"
             onClick={() => navigate("/contact")}
           >
             Contact
           </button>
+
           <Button
-            style={{ backgroundColor: 'var(--blue-main)', color: '#fff', border: 'none' }}
+            style={{ backgroundColor: "#4169E1", color: "#fff", border: "none" }}
             onClick={() => navigate("/bookings")}
           >
             Book Now

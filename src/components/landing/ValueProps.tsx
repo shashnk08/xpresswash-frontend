@@ -76,20 +76,14 @@ export function ValueProps() {
     <section className="py-10 bg-surface">
       <div className="mx-auto max-w-6xl px-8">
 
-        <h2 className="text-5xl md:text-6xl font-extrabold text-left mb-12 tracking-tight">
-          <span
-            className="text-6xl md:text-7xl leading-tight font-extrabold text-transparent"
-            style={{ WebkitTextStroke: "2px #0b1f3b" }}
-          >
+        <h2 className="text-5xl md:text-6xl font-extrabold text-left mb-12 tracking-tight text-[#0b1f3b]">
+          <span className="text-6xl md:text-7xl leading-tight font-extrabold" style={{ color: '#0b1f3b' }}>
             WHY
           </span>
           <br className="hidden md:block" />
-          <span className="text-primary">
+          <span className="text-[#0b1f3b]">
             CHOOSE{" "}
-            <span
-              className="font-extrabold text-transparent"
-              style={{ WebkitTextStroke: "2px #0b1f3b" }}
-            >
+            <span className="font-extrabold" style={{ color: '#0b1f3b' }}>
               XPRESS
             </span>
             ?
@@ -116,7 +110,7 @@ export function ValueProps() {
               {items.map((item, idx) => (
                 <Card
                   key={item.title + idx}
-                  className="group flex-shrink-0 w-80 relative flex flex-col items-center justify-start p-10 bg-white border border-[#E3EAF5] rounded-[20px] shadow-[0_6px_32px_0_rgba(15,42,79,0.10)] min-h-[366px] transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_12px_40px_0_rgba(15,42,79,0.18)] hover:border-[#0F2A4F]"
+                  className="group flex-shrink-0 w-80 relative flex flex-col items-center justify-start p-10 bg-white border border-[#E3EAF5] rounded-[20px] min-h-[366px] transition-all duration-300 hover:border-[#0F2A4F]"
                   style={{ borderRadius: 20 }}
                 >
                   <div className="mb-5 w-full h-40 flex items-center justify-center overflow-hidden rounded-lg">
@@ -149,7 +143,7 @@ export function ValueProps() {
               {items.map((item, idx) => (
                 <Card
                   key={item.title + "-dup-" + idx}
-                  className="group flex-shrink-0 w-80 relative flex flex-col items-center justify-start p-10 bg-white border border-[#E3EAF5] rounded-[20px] shadow-[0_6px_32px_0_rgba(15,42,79,0.10)] min-h-[366px] transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_12px_40px_0_rgba(15,42,79,0.18)] hover:border-[#0F2A4F] opacity-70"
+                  className="group flex-shrink-0 w-80 relative flex flex-col items-center justify-start p-10 bg-white border border-[#E3EAF5] rounded-[20px] min-h-[366px] transition-all duration-300 hover:border-[#0F2A4F] opacity-70"
                   style={{ borderRadius: 20 }}
                 >
                   <div className="mb-5 w-full h-40 flex items-center justify-center overflow-hidden rounded-lg">

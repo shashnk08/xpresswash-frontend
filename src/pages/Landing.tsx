@@ -16,6 +16,7 @@ export default function Landing() {
     <>
       <Navbar />
       <Hero />
+      <ServicesPreview />
       <ValueProps />
       <HowItWorks />
       <WhyUs />

@@ -100,7 +100,7 @@ export function FAQSection() {
         <div className="text-center mt-6">
           <button
             className="px-6 py-2 text-white rounded transition"
-            style={{ backgroundColor: '#1E90FF' }}
+            style={{ backgroundColor: '#4169E1', border: 'none' }}
             onClick={() => setShowAll(true)}
           >
             Show More
@@ -110,7 +110,8 @@ export function FAQSection() {
       {showAll && faqs.length > 5 && (
         <div className="text-center mt-6">
           <button
-            className="px-6 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
+            className="px-6 py-2 text-white rounded transition"
+            style={{ backgroundColor: '#4169E1', border: 'none' }}
             onClick={() => {
               setShowAll(false);
               setOpenIndexes([]);

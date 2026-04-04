@@ -59,7 +59,6 @@ export default function Admin() {
     setModal({ open: true, table, item });
   };
 
-  // --- ADDED THESE MISSING FUNCTIONS ---
   const closeModal = () => {
     setModal({ open: false, table: "", item: null });
   };
@@ -67,7 +66,6 @@ export default function Admin() {
   const updateModalItem = (newItem: BaseItem) => {
     setModal((prev) => ({ ...prev, item: newItem }));
   };
-  // -------------------------------------
 
   const handleSave = async () => {
     if (!modal.item || !modal.table) return;
@@ -85,91 +83,90 @@ export default function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white p-8">
-      <div className="max-w-5xl mx-auto">
-        <header className="mb-10">
-          <h1 className="text-4xl font-black italic tracking-tighter uppercase">
-            Xpress <span className="text-blue-500">Admin</span>
-          </h1>
+    <div className="min-h-screen bg-slate-100/50 text-slate-900 p-8">
+      <div className="max-w-6xl mx-auto">
+        <header className="flex items-center justify-between mb-12">
+          <div>
+            <h1 className="text-3xl font-black text-slate-900">
+              Admin Dashboard
+            </h1>
+            <p className="text-slate-500 text-sm mt-1 font-medium">
+              Manage service pricing, locations, and subscriptions.
+            </p>
+          </div>
         </header>
 
-        <div className="space-y-12">
-          {/* Blue Section */}
-          <div className="border-l-4 border-blue-500 pl-6">
-            <Section
-              title="Main Services"
-              data={data.services}
-              table="config_services"
-              onAdd={() =>
-                handleOpenModal("config_services", {
-                  label: "",
-                  is_active: true,
-                  base_price: 0,
-                  description: "",
-                })
-              }
-              onEdit={handleOpenModal}
-              refresh={refresh}
-            />
-          </div>
+        {/* 1. Services Section */}
+        <Section
+          title="Wash Services"
+          color="bg-blue-500"
+          data={data.services}
+          table="config_services"
+          onAdd={() =>
+            handleOpenModal("config_services", {
+              label: "",
+              description: "",
+              base_price: 0,
+              is_active: true,
+            })
+          }
+          onEdit={handleOpenModal}
+          refresh={refresh}
+        />
 
-          {/* Emerald Section */}
-          <div className="border-l-4 border-emerald-500 pl-6">
-            <Section
-              title="Add-Ons"
-              data={data.addons}
-              table="config_addons"
-              onAdd={() =>
-                handleOpenModal("config_addons", {
-                  label: "",
-                  is_active: true,
-                  price: 0,
-                  description: "",
-                })
-              }
-              onEdit={handleOpenModal}
-              refresh={refresh}
-            />
-          </div>
+        {/* 2. Add-Ons Section */}
+        <Section
+          title="Add-Ons"
+          color="bg-indigo-500"
+          data={data.addons}
+          table="config_addons"
+          onAdd={() =>
+            handleOpenModal("config_addons", {
+              label: "",
+              description: "",
+              price: 0, // SQL uses 'price' for addons
+              is_active: true,
+            })
+          }
+          onEdit={handleOpenModal}
+          refresh={refresh}
+        />
 
-          {/* Purple Section */}
-          <div className="border-l-4 border-purple-500 pl-6">
-            <Section
-              title="Subscription Plans"
-              data={data.subscriptions}
-              table="config_subscriptions"
-              onAdd={() =>
-                handleOpenModal("config_subscriptions", {
-                  label: "",
-                  is_active: true,
-                  base_price: 0,
-                  wash_count: 4,
-                  vehicle_type: "Sedan",
-                  description: "",
-                })
-              }
-              onEdit={handleOpenModal}
-              refresh={refresh}
-            />
-          </div>
+        {/* 3. Subscriptions Section */}
+        <Section
+          title="Subscription Packages"
+          color="bg-emerald-500"
+          data={data.subscriptions}
+          table="config_subscriptions"
+          onAdd={() =>
+            handleOpenModal("config_subscriptions", {
+              label: "",
+              description: "",
+              base_price: 0,
+              wash_count: 4,
+              vehicle_type: "Sedan",
+              is_active: true,
+            })
+          }
+          onEdit={handleOpenModal}
+          refresh={refresh}
+        />
 
-          {/* Amber Section */}
-          <div className="border-l-4 border-amber-500 pl-6">
-            <Section
-              title="Service Locations"
-              data={data.locations}
-              table="config_locations"
-              onAdd={() =>
-                handleOpenModal("config_locations", {
-                  label: "",
-                  is_active: true,
-                })
-              }
-              onEdit={handleOpenModal}
-              refresh={refresh}
-            />
-          </div>
-        </div>
+        {/* 4. Locations Section */}
+        <Section
+          title="Active Locations"
+          color="bg-amber-500"
+          data={data.locations}
+          table="config_locations"
+          onAdd={() =>
+            handleOpenModal("config_locations", {
+              label: "",
+              is_active: true,
+            })
+          }
+          onEdit={handleOpenModal}
+          refresh={refresh}
+        />
       </div>
 
       {modal.open && modal.item && (

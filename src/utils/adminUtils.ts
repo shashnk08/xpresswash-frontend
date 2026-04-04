@@ -36,10 +36,22 @@ export const fetchAdminData = async (): Promise<AdminData> => {
 };
 
 export const saveItem = async (table: string, item: BaseItem) => {
+  // If item has an ID, we UPDATE
   if (item.id) {
-    return supabase.from(table).update(item).eq("id", item.id);
+    const { id, ...updateData } = item;
+    return supabase.from(table).update(updateData).eq("id", id);
   }
+
+  // If item has NO ID, we INSERT
+  // IMPORTANT: We remove 'id' entirely so Supabase generates a new UUID
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id, ...newItem } = item;
-  return supabase.from(table).insert([newItem]);
+  const { id, ...insertData } = item;
+
+  const { data, error } = await supabase.from(table).insert([insertData]);
+
+  if (error) {
+    console.error("Supabase Insert Error:", error.message);
+    throw error;
+  }
+  return data;
 };

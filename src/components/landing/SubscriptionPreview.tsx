@@ -23,6 +23,24 @@ export function SubscriptionPreview() {
     };
 
     load();
+
+    // Subscribe to real-time changes on config_subscriptions
+    const channel = supabase
+      .channel("config_subscriptions_changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "config_subscriptions" },
+        () => {
+          // Reload subscriptions when any row is updated/inserted/deleted
+          load();
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on unmount
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   return (

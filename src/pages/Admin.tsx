@@ -79,10 +79,66 @@ export default function Admin() {
 
   useEffect(() => {
     load();
+
+    // Subscribe to real-time changes on all config tables
+    const channels = [
+      supabase
+        .channel("config_services_changes")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "config_services" },
+          (payload) => {
+            console.log("📡 config_services changed:", payload);
+            load();
+          }
+        )
+        .subscribe(),
+      supabase
+        .channel("config_addons_changes")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "config_addons" },
+          (payload) => {
+            console.log("📡 config_addons changed:", payload);
+            load();
+          }
+        )
+        .subscribe(),
+      supabase
+        .channel("config_subscriptions_changes")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "config_subscriptions" },
+          (payload) => {
+            console.log("📡 config_subscriptions changed:", payload);
+            load();
+          }
+        )
+        .subscribe(),
+      supabase
+        .channel("config_locations_changes")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "config_locations" },
+          (payload) => {
+            console.log("📡 config_locations changed:", payload);
+            load();
+          }
+        )
+        .subscribe(),
+    ];
+
+    // Cleanup all subscriptions on unmount
+    return () => {
+      channels.forEach((channel) => {
+        supabase.removeChannel(channel);
+      });
+    };
   }, [load]);
 
   const toggle = useCallback(
     async (table: string, id: string, current: boolean) => {
+      console.log("🔘 Toggle clicked:", { table, id, current });
       const nextValue = !current;
 
       // 1. Optimistic UI Update: Update local state immediately
@@ -106,6 +162,8 @@ export default function Admin() {
         console.error("Toggle failed:", error);
         // Revert if database fails
         load();
+      } else {
+        console.log("✓ Toggle successful:", { table, id, is_active: nextValue });
       }
     },
     [load],

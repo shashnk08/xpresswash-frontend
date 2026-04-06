@@ -20,6 +20,24 @@ export function LocationPreview() {
     };
 
     load();
+
+    // Subscribe to real-time changes on config_locations
+    const channel = supabase
+      .channel("config_locations_changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "config_locations" },
+        () => {
+          // Reload locations when any row is updated/inserted/deleted
+          load();
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on unmount
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   return (

@@ -22,6 +22,24 @@ export function AddonPreview() {
     };
 
     load();
+
+    // Subscribe to real-time changes on config_addons
+    const channel = supabase
+      .channel("config_addons_changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "config_addons" },
+        () => {
+          // Reload addons when any row is updated/inserted/deleted
+          load();
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on unmount
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   return (

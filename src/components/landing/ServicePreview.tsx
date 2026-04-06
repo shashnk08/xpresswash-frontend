@@ -109,6 +109,24 @@ export function ServicesPreview() {
     };
 
     loadServices();
+
+    // Subscribe to real-time changes on config_services
+    const channel = supabase
+      .channel("config_services_changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "config_services" },
+        () => {
+          // Reload services when any row is updated/inserted/deleted
+          loadServices();
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on unmount
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   return (

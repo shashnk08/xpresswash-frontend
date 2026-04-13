@@ -1,6 +1,14 @@
+import { getBookingLink } from "@/utils/adminUtils";
+
 export function Footer() {
+  const handleBook = async () => {
+    const link = await getBookingLink();
+    if (link) {
+      window.open(link, "_blank");
+    }
+  };
+
   return (
-    // Fixed: Changed bg-blueDeep to bg-blue-deep to match v4 theme naming
     <footer className="bg-blue-deep text-white">
       <div className="mx-auto max-w-7xl px-6 py-16 grid gap-12 md:grid-cols-4">
         <div>
@@ -47,10 +55,10 @@ export function Footer() {
           <p className="mt-4 text-sm text-white/70">
             Book your service in under 2 minutes.
           </p>
-          {/* Optional: Add a small button or call to action here */}
+
           <button
             className="mt-4 text-xs font-bold uppercase tracking-wider text-accent hover:underline"
-            onClick={() => (window.location.href = "/bookings")}
+            onClick={handleBook}
           >
             Book Now →
           </button>

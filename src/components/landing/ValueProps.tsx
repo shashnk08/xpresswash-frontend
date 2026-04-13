@@ -73,11 +73,11 @@ export function ValueProps() {
   };
 
   return (
-    <section className="py-10 bg-surface">
-      <div className="mx-auto max-w-6xl px-8">
+    <section className="py-8 sm:py-12 md:py-16 lg:py-20 bg-surface">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
-        <h2 className="text-5xl md:text-6xl font-extrabold text-left mb-12 tracking-tight text-[#0b1f3b]">
-          <span className="text-6xl md:text-7xl leading-tight font-extrabold" style={{ color: '#0b1f3b' }}>
+        <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-left mb-8 sm:mb-12 tracking-tight text-[#0b1f3b]">
+          <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight font-extrabold" style={{ color: '#0b1f3b' }}>
             WHY
           </span>
           <br className="hidden md:block" />
@@ -94,10 +94,10 @@ export function ValueProps() {
         <div className="relative">
 
           {/* Left fade */}
-          <div className="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-surface to-transparent z-10" />
+          <div className="pointer-events-none absolute left-0 top-0 h-full w-12 sm:w-16 md:w-24 bg-gradient-to-r from-surface to-transparent z-10" />
 
           {/* Right fade */}
-          <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-surface to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-12 sm:w-16 md:w-24 bg-gradient-to-l from-surface to-transparent z-10" />
 
           <div
             ref={scrollRef}
@@ -105,15 +105,15 @@ export function ValueProps() {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <div className="flex gap-8 min-w-[700px] md:min-w-[900px] lg:min-w-[1200px]">
+            <div className="flex gap-4 sm:gap-6 md:gap-8 min-w-[400px] sm:min-w-[600px] md:min-w-[900px] lg:min-w-[1200px]">
 
               {items.map((item, idx) => (
                 <Card
                   key={item.title + idx}
-                  className="group flex-shrink-0 w-80 relative flex flex-col items-center justify-start p-10 bg-white border border-[#E3EAF5] rounded-[20px] min-h-[366px] transition-all duration-300 hover:border-[#0F2A4F]"
+                  className="group flex-shrink-0 w-64 sm:w-72 md:w-80 relative flex flex-col items-center justify-start p-6 sm:p-8 md:p-10 bg-white border border-[#E3EAF5] rounded-[20px] min-h-[300px] sm:min-h-[340px] md:min-h-[366px] transition-all duration-300 hover:border-[#0F2A4F]"
                   style={{ borderRadius: 20 }}
                 >
-                  <div className="mb-5 w-full h-40 flex items-center justify-center overflow-hidden rounded-lg">
+                  <div className="mb-4 sm:mb-5 w-full h-32 sm:h-36 md:h-40 flex items-center justify-center overflow-hidden rounded-lg">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -123,14 +123,14 @@ export function ValueProps() {
                   </div>
 
                   <h3
-                    className="text-xl font-bold text-[#0F2A4F] mb-3 text-center"
+                    className="text-lg sm:text-xl font-bold text-[#0F2A4F] mb-2 sm:mb-3 text-center"
                     style={{ fontWeight: 700 }}
                   >
                     {item.title}
                   </h3>
 
                   <p
-                    className="text-base text-[#475569] text-center"
+                    className="text-sm sm:text-base text-[#475569] text-center"
                     style={{ lineHeight: 1.6 }}
                   >
                     {item.desc}
@@ -143,10 +143,10 @@ export function ValueProps() {
               {items.map((item, idx) => (
                 <Card
                   key={item.title + "-dup-" + idx}
-                  className="group flex-shrink-0 w-80 relative flex flex-col items-center justify-start p-10 bg-white border border-[#E3EAF5] rounded-[20px] min-h-[366px] transition-all duration-300 hover:border-[#0F2A4F] opacity-70"
+                  className="group flex-shrink-0 w-64 sm:w-72 md:w-80 relative flex flex-col items-center justify-start p-6 sm:p-8 md:p-10 bg-white border border-[#E3EAF5] rounded-[20px] min-h-[300px] sm:min-h-[340px] md:min-h-[366px] transition-all duration-300 hover:border-[#0F2A4F] opacity-70"
                   style={{ borderRadius: 20 }}
                 >
-                  <div className="mb-5 w-full h-40 flex items-center justify-center overflow-hidden rounded-lg">
+                  <div className="mb-4 sm:mb-5 w-full h-32 sm:h-36 md:h-40 flex items-center justify-center overflow-hidden rounded-lg">
                     <img
                       src={item.image}
                       alt={item.title}

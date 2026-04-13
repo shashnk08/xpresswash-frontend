@@ -80,24 +80,24 @@ Date: ${form.date}`;
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--blue-main)] via-[#1E3A8A] to-black p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--blue-main)] via-[#1E3A8A] to-black p-4 sm:p-6">
       <div className="w-full max-w-lg">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white">Book Your Car Wash</h1>
-          <p className="text-gray-300 mt-2">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">Book Your Car Wash</h1>
+          <p className="text-gray-300 mt-2 text-sm sm:text-base">
             Choose your service and schedule a professional car cleaning.
           </p>
         </div>
 
         {submitted ? (
-          <div className="bg-green-100 border border-green-400 text-green-700 p-6 rounded-xl text-center shadow-md">
+          <div className="bg-green-100 border border-green-400 text-green-700 p-4 sm:p-6 rounded-xl text-center shadow-md text-sm sm:text-base">
             🎉 Your booking request has been sent!
           </div>
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="bg-white border border-gray-200 shadow-2xl rounded-2xl p-8 space-y-5 transition hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)]"
+            className="bg-white border border-gray-200 shadow-2xl rounded-2xl p-5 sm:p-8 space-y-4 sm:space-y-5 transition hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)]"
           >
             {/* Name */}
             <input
@@ -107,7 +107,7 @@ Date: ${form.date}`;
               onChange={handleChange}
               required
               placeholder="Your Name"
-              className="w-full px-4 py-2 rounded-lg"
+              className="w-full px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base"
             />
 
             {/* Contact */}
@@ -118,7 +118,7 @@ Date: ${form.date}`;
               onChange={handleChange}
               required
               placeholder="Phone"
-              className="w-full px-4 py-2 rounded-lg"
+              className="w-full px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base"
             />
 
             {/* Date */}
@@ -130,7 +130,7 @@ Date: ${form.date}`;
               onChange={handleChange}
               required
               min={new Date().toISOString().split("T")[0]}
-              className="w-full px-4 py-2 rounded-lg"
+              className="w-full px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base"
             />
 
             {/* Service */}
@@ -138,7 +138,7 @@ Date: ${form.date}`;
               name="service"
               value={form.service}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg"
+              className="w-full px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base"
             >
               {services.map((s) => (
                 <option key={s.id} value={s.label}>
@@ -152,7 +152,7 @@ Date: ${form.date}`;
               name="location"
               value={form.location}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg"
+              className="w-full px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base"
             >
               {locations.map((l) => (
                 <option key={l.id} value={l.label}>
@@ -166,7 +166,7 @@ Date: ${form.date}`;
               name="addon"
               value={form.addon}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg"
+              className="w-full px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base"
             >
               {addons.map((a) => (
                 <option key={a.id} value={a.label}>
@@ -175,7 +175,7 @@ Date: ${form.date}`;
               ))}
             </select>
 
-            <button className="w-full py-3 rounded-lg bg-blue-500 text-white">
+            <button className="w-full py-2 sm:py-3 rounded-lg bg-blue-500 text-white text-sm sm:text-base font-medium hover:bg-blue-600 transition">
               Book Service 🚗
             </button>
           </form>

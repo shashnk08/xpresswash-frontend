@@ -65,11 +65,11 @@ export function Hero() {
       />
 
       {/* Text content */}
-      <div className="relative z-10 max-w-7xl px-6 py-28 md:px-12 w-full text-left">
+      <div className="relative z-10 max-w-7xl px-4 sm:px-6 lg:px-12 py-16 sm:py-20 md:py-28 w-full text-left">
         <motion.h1
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-6xl font-bold tracking-tight text-white"
+          className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white"
         >
           Premium Detailing Service!
           <br />
@@ -93,7 +93,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.4 }}
-          className="mt-6 text-lg text-white max-w-xl"
+          className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-white max-w-xl"
         >
           Hassle-free car servicing with transparent pricing, expert technicians,
           and real-time booking — all from your phone.
@@ -103,7 +103,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.4 }}
-          className="mt-10 flex justify-start gap-4"
+          className="mt-6 sm:mt-8 md:mt-10 flex flex-wrap justify-start gap-3 sm:gap-4"
         >
           <Button
             variant="secondary"
@@ -116,6 +116,7 @@ export function Hero() {
                 section.scrollIntoView({ behavior: "smooth" });
               }
             }}
+            className="text-xs sm:text-sm md:text-base px-3 sm:px-4 py-2 sm:py-2.5"
           >
             Explore Services
           </Button>

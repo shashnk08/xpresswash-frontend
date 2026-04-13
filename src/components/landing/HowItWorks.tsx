@@ -36,19 +36,19 @@ export function HowItWorks() {
   }, []);
 
   return (
-    <section className="py-16 bg-background">
-      <div className="mx-auto max-w-5xl px-6">
+    <section className="py-8 sm:py-12 md:py-16 bg-background">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
 
         {/* Title */}
-        <h2 className="text-3xl font-bold mb-12 text-center">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-8 sm:mb-12 text-center">
           How It Works
         </h2>
 
         {/* Steps container */}
-        <div className="relative flex flex-col md:flex-row items-center justify-between gap-12 w-full">
+        <div className="relative flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 md:gap-12 w-full">
 
           {/* Connecting line */}
-          <div className="hidden md:block absolute top-6 left-0 right-0 h-[2px] bg-gray-200 z-0" />
+          <div className="hidden md:block absolute top-5 left-0 right-0 h-[2px] bg-gray-200 z-0" />
 
           {steps.map((step, i) => (
             <div
@@ -56,7 +56,7 @@ export function HowItWorks() {
               ref={(el) => {
                 stepRefs.current[i] = el;
               }}
-              className={`relative z-10 flex flex-col items-center gap-4 flex-1 transition-all duration-700 ${
+              className={`relative z-10 flex flex-col items-center gap-3 sm:gap-4 flex-1 transition-all duration-700 ${
                 visibleStep > i
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
@@ -64,12 +64,12 @@ export function HowItWorks() {
             >
 
               {/* Step Number */}
-              <div className="h-12 w-12 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-lg mb-2 shadow-md">
+              <div className="h-10 sm:h-12 w-10 sm:w-12 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-base sm:text-lg mb-2 shadow-md">
                 {i + 1}
               </div>
 
               {/* Step Text */}
-              <p className="font-medium text-lg text-center">
+              <p className="font-medium text-base sm:text-lg text-center px-2">
                 {step}
               </p>
 
@@ -78,7 +78,7 @@ export function HowItWorks() {
                 src={`/media/${images[i]}.png`}
                 alt={step}
                 loading="lazy"
-                className="w-[200px] h-auto object-contain mt-4"
+                className="w-[120px] sm:w-[150px] md:w-[200px] h-auto object-contain mt-3 sm:mt-4"
               />
 
             </div>

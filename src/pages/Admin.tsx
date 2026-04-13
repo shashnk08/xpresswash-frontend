@@ -83,14 +83,14 @@ export default function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100/50 text-slate-900 p-8">
+    <div className="min-h-screen bg-slate-100/50 text-slate-900 p-4 sm:p-6 md:p-8">
       <div className="max-w-6xl mx-auto">
-        <header className="flex items-center justify-between mb-12">
+        <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 md:mb-12">
           <div>
-            <h1 className="text-3xl font-black text-slate-900">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900">
               Admin Dashboard
             </h1>
-            <p className="text-slate-500 text-sm mt-1 font-medium">
+            <p className="text-slate-500 text-xs sm:text-sm mt-1 font-medium">
               Manage service pricing, locations, and subscriptions.
             </p>
           </div>

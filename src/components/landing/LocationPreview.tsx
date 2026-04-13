@@ -41,17 +41,17 @@ export function LocationPreview() {
   }, []);
 
   return (
-    <section className="py-20 bg-[#0f172a]">
-      <div className="max-w-5xl mx-auto px-6 text-center">
-        <h2 className="text-3xl font-bold text-white mb-6">
+    <section className="py-12 sm:py-16 md:py-20 bg-[#0f172a]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6">
           Available Locations
         </h2>
 
-        <div className="flex flex-wrap justify-center gap-3">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
           {locations.map((loc) => (
             <span
               key={loc.id}
-              className="px-4 py-2 bg-white/10 border border-white/10 rounded-full text-sm text-gray-200"
+              className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 border border-white/10 rounded-full text-xs sm:text-sm text-gray-200"
             >
               {loc.label}
             </span>

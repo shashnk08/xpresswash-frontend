@@ -55,20 +55,20 @@ export function AddonPreview() {
   }, []);
 
   return (
-    <section className="py-24 bg-[#0f172a] relative overflow-hidden border-t border-white/5">
+    <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-[#0f172a] relative overflow-hidden border-t border-white/5">
       {/* Subtle Background Accent */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 relative">
-        <header className="text-center mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <header className="text-center mb-10 sm:mb-14 md:mb-16">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3 sm:mb-4 tracking-tight"
           >
             Extra <span className="text-blue-400">Add-ons</span>
           </motion.h2>
-          <p className="text-slate-400 max-w-xl mx-auto">
+          <p className="text-slate-400 text-xs sm:text-sm md:text-base max-w-xl mx-auto px-4">
             Enhance your cleaning experience with our specialized treatments.
             Pricing below includes all applicable taxes.
           </p>
@@ -79,7 +79,7 @@ export function AddonPreview() {
             <div className="w-8 h-8 border-2 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
             {addons.map((addon) => {
               // GST Calculation: 18%
               const basePrice = addon.price || 0;
@@ -89,13 +89,13 @@ export function AddonPreview() {
                 <motion.div
                   key={addon.id}
                   whileHover={{ scale: 1.02 }}
-                  className="group p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-blue-500/40 hover:bg-white/[0.05] transition-all duration-300 flex flex-col justify-between"
+                  className="group p-4 sm:p-5 md:p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-blue-500/40 hover:bg-white/[0.05] transition-all duration-300 flex flex-col justify-between"
                 >
                   <div>
-                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
+                    <h3 className="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
                       {addon.label}
                     </h3>
-                    <p className="text-sm text-slate-400 leading-relaxed mb-6 line-clamp-3">
+                    <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4 sm:mb-6 line-clamp-3">
                       {addon.description ||
                         "Specialized treatment for your vehicle's specific needs."}
                     </p>

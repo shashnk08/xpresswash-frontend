@@ -74,6 +74,10 @@ export default function Admin() {
     }
 
     const { data } = await supabase.auth.getUser();
+    if (!data.user) {
+      return;
+    }
+
     const role = data.user.user_metadata?.role;
 
     if (role !== "admin") {

@@ -1,10 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
+import { supabase } from "@/lib/supabaseClient";
+
 import {
   fetchAdminData,
   saveItem,
   type AdminData,
   type BaseItem,
 } from "@/utils/adminUtils";
+
 import { ItemModal } from "@/components/ui/ItemModal";
 import { Section } from "@/components/ui/Section";
 
@@ -15,6 +18,12 @@ interface ModalState {
 }
 
 export default function Admin() {
+  // ---------------- AUTH STATE ----------------
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  // ---------------- DATA STATE ----------------
   const [data, setData] = useState<AdminData>({
     services: [],
     addons: [],
@@ -22,7 +31,7 @@ export default function Admin() {
     locations: [],
   });
 
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
 
   const [modal, setModal] = useState<ModalState>({
     open: false,
@@ -30,15 +39,60 @@ export default function Admin() {
     item: null,
   });
 
+  // ---------------- AUTH CHECK ----------------
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      console.log(data.user);
+
+      if (data?.user) {
+        const role = data.user.user_metadata?.role;
+        setIsAuthenticated(true);
+        setIsAdmin(role === "admin");
+      }
+
+      setCheckingAuth(false);
+    };
+
+    checkUser();
+  }, []);
+
+  // ---------------- LOGIN ----------------
+  const handleLogin = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    const { data } = await supabase.auth.getUser();
+    const role = data.user.user_metadata?.role;
+
+    if (role !== "admin") {
+      alert("Not authorized");
+      return;
+    }
+
+    setIsAuthenticated(true);
+    setIsAdmin(true);
+  };
+
+  // ---------------- DATA FETCH ----------------
   const refresh = useCallback(async () => {
     const res = await fetchAdminData();
     setData(res);
     setLoading(false);
   }, []);
 
-  // Standard async pattern to avoid cascading render warnings
   useEffect(() => {
+    if (!isAdmin) return;
+
     let isMounted = true;
+
     const init = async () => {
       const res = await fetchAdminData();
       if (isMounted) {
@@ -46,12 +100,15 @@ export default function Admin() {
         setLoading(false);
       }
     };
+
     init();
+
     return () => {
       isMounted = false;
     };
-  }, [refresh]);
+  }, [isAdmin, refresh]);
 
+  // ---------------- MODAL HANDLERS ----------------
   const handleOpenModal = (
     table: string,
     item: BaseItem = { label: "", is_active: true },
@@ -74,6 +131,52 @@ export default function Admin() {
     refresh();
   };
 
+  // ---------------- LOADING ----------------
+  if (checkingAuth) return null;
+
+  // ---------------- LOGIN MODAL ----------------
+  if (!isAuthenticated || !isAdmin) {
+    return (
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 w-[350px] text-white shadow-2xl">
+          <h2 className="text-xl font-bold mb-6 text-center">Admin Login</h2>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleLogin(e.target.email.value, e.target.password.value);
+            }}
+            className="flex flex-col gap-4"
+          >
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              className="px-4 py-2 rounded-lg bg-white/10 border border-white/20 outline-none"
+              required
+            />
+
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              className="px-4 py-2 rounded-lg bg-white/10 border border-white/20 outline-none"
+              required
+            />
+
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-600 transition rounded-lg py-2 font-semibold"
+            >
+              Login
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  // ---------------- DASHBOARD LOADING ----------------
   if (loading) {
     return (
       <div className="min-h-screen bg-[#020617] flex items-center justify-center text-white italic">
@@ -82,6 +185,7 @@ export default function Admin() {
     );
   }
 
+  // ---------------- MAIN UI ----------------
   return (
     <div className="min-h-screen bg-slate-100/50 text-slate-900 p-8">
       <div className="max-w-6xl mx-auto">
@@ -94,9 +198,21 @@ export default function Admin() {
               Manage service pricing, locations, and subscriptions.
             </p>
           </div>
+
+          {/* Logout */}
+          <button
+            onClick={async () => {
+              await supabase.auth.signOut();
+              setIsAuthenticated(false);
+              setIsAdmin(false);
+            }}
+            className="bg-red-500 text-white px-4 py-2 rounded-lg"
+          >
+            Logout
+          </button>
         </header>
 
-        {/* 1. Services Section */}
+        {/* Sections */}
         <Section
           title="Wash Services"
           color="bg-blue-500"
@@ -114,7 +230,6 @@ export default function Admin() {
           refresh={refresh}
         />
 
-        {/* 2. Add-Ons Section */}
         <Section
           title="Add-Ons"
           color="bg-indigo-500"
@@ -124,7 +239,7 @@ export default function Admin() {
             handleOpenModal("config_addons", {
               label: "",
               description: "",
-              price: 0, // SQL uses 'price' for addons
+              price: 0,
               is_active: true,
             })
           }
@@ -132,7 +247,6 @@ export default function Admin() {
           refresh={refresh}
         />
 
-        {/* 3. Subscriptions Section */}
         <Section
           title="Subscription Packages"
           color="bg-emerald-500"
@@ -152,7 +266,6 @@ export default function Admin() {
           refresh={refresh}
         />
 
-        {/* 4. Locations Section */}
         <Section
           title="Active Locations"
           color="bg-amber-500"

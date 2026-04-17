@@ -5,7 +5,7 @@ export function CTA() {
   const handleBook = async () => {
     const link = await getBookingLink();
     if (link) {
-      window.open(link, "_blank"); // or popup if you want
+      window.location.href = link;
     } else {
       alert("Booking link not configured");
     }

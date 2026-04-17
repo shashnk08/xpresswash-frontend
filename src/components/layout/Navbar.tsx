@@ -17,7 +17,7 @@ export function Navbar() {
   const handleBook = async () => {
     const link = await getBookingLink();
     if (link) {
-      window.open(link, "_blank");
+      window.location.href = link;
     } else {
       alert("Booking link not configured");
     }
@@ -63,9 +63,9 @@ export function Navbar() {
 
           <button
             className="text-base font-medium text-text hover:text-primary transition"
-            onClick={() => navigate("/contact")}
+            onClick={() => goToSection("faq-section")}
           >
-            Contact
+            FAQ
           </button>
 
           <Button
@@ -106,10 +106,10 @@ export function Navbar() {
             className="text-left text-base"
             onClick={() => {
               setMenuOpen(false);
-              navigate("/contact");
+              goToSection("faq-section");
             }}
           >
-            Contact
+            FAQ
           </button>
 
           <Button

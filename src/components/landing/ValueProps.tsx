@@ -28,11 +28,6 @@ const items = [
     desc: "Trained staff, attention to detail, and a spotless finish every time.",
   },
   {
-    image: "/media/istockphoto-1349262258-612x612.jpg",
-    title: "Transparent Pricing",
-    desc: "Clear packages with no hidden charges. Pay only for what you choose.",
-  },
-  {
     image: "/media/i2.jpg",
     title: "Monthly Plans Available",
     desc: "Regular car care at discounted prices with priority service.",
@@ -40,141 +35,78 @@ const items = [
 ];
 
 export function ValueProps() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const isPaused = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const container = scrollRef.current;
-    if (!container) return;
-    let animationFrame: number;
-    const speed = 1;
+    const handleScroll = () => {
+      const container = containerRef.current;
+      const track = trackRef.current;
+      if (!container || !track) return;
 
-    function animate() {
-      if (!isPaused.current && container) {
-        if (container.scrollLeft >= container.scrollWidth / 2) {
-          container.scrollLeft = 0;
-        } else {
-          container.scrollLeft += speed;
-        }
-      }
-      animationFrame = requestAnimationFrame(animate);
-    }
+      const rect = container.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
 
-    animationFrame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrame);
+      // progress from 0 → 1
+      const progress = Math.min(
+        Math.max((windowHeight - rect.top) / (windowHeight + rect.height), 0),
+        1,
+      );
+
+      const maxScroll = track.scrollWidth - window.innerWidth;
+
+      track.style.transform = `translateX(-${progress * maxScroll}px)`;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleMouseEnter = () => {
-    isPaused.current = true;
-  };
-
-  const handleMouseLeave = () => {
-    isPaused.current = false;
-  };
-
   return (
-    <section className="py-10 bg-surface">
-      <div className="mx-auto max-w-6xl px-8">
+    <section className="bg-slate-50">
+      {/* BIG HEIGHT to allow scroll */}
+      <div ref={containerRef} className="relative h-[200vh]">
+        {/* Sticky viewport */}
+        <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
+          {/* Heading */}
+          <div className="max-w-7xl mx-auto px-4 md:px-8 mb-10">
+            <h2 className="text-4xl md:text-6xl font-extrabold text-[#0b1f3b]">
+              WHY CHOOSE <span className="text-blue-600">XPRESS</span>?
+            </h2>
+          </div>
 
-        <h2 className="text-5xl md:text-6xl font-extrabold text-left mb-12 tracking-tight text-[#0b1f3b]">
-          <span className="text-6xl md:text-7xl leading-tight font-extrabold" style={{ color: '#0b1f3b' }}>
-            WHY
-          </span>
-          <br className="hidden md:block" />
-          <span className="text-[#0b1f3b]">
-            CHOOSE{" "}
-            <span className="font-extrabold" style={{ color: '#0b1f3b' }}>
-              XPRESS
-            </span>
-            ?
-          </span>
-        </h2>
+          {/* Horizontal track */}
+          <div ref={trackRef} className="flex gap-8 px-8 will-change-transform">
+            {items.map((item, idx) => (
+              <Card
+                key={idx}
+                className="
+                  flex-shrink-0 w-[300px] md:w-[350px]
+                  bg-white border border-slate-200
+                  rounded-2xl shadow-md
+                  transition-all duration-500
+                  hover:scale-105 hover:-translate-y-2 hover:shadow-2xl
+                  group overflow-hidden
+                "
+              >
+                <div className="h-44 overflow-hidden">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
+                  />
+                </div>
 
-        {/* Wrapper for fade edges */}
-        <div className="relative">
-
-          {/* Left fade */}
-          <div className="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-surface to-transparent z-10" />
-
-          {/* Right fade */}
-          <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-surface to-transparent z-10" />
-
-          <div
-            ref={scrollRef}
-            className="overflow-x-hidden"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            <div className="flex gap-8 min-w-[700px] md:min-w-[900px] lg:min-w-[1200px]">
-
-              {items.map((item, idx) => (
-                <Card
-                  key={item.title + idx}
-                  className="group flex-shrink-0 w-80 relative flex flex-col items-center justify-start p-10 bg-white border border-[#E3EAF5] rounded-[20px] min-h-[366px] transition-all duration-300 hover:border-[#0F2A4F]"
-                  style={{ borderRadius: 20 }}
-                >
-                  <div className="mb-5 w-full h-40 flex items-center justify-center overflow-hidden rounded-lg">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </div>
-
-                  <h3
-                    className="text-xl font-bold text-[#0F2A4F] mb-3 text-center"
-                    style={{ fontWeight: 700 }}
-                  >
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-[#0F2A4F] mb-2">
                     {item.title}
                   </h3>
-
-                  <p
-                    className="text-base text-[#475569] text-center"
-                    style={{ lineHeight: 1.6 }}
-                  >
-                    {item.desc}
-                  </p>
-                </Card>
-              ))}
-
-              {/* Duplicate for infinite effect */}
-
-              {items.map((item, idx) => (
-                <Card
-                  key={item.title + "-dup-" + idx}
-                  className="group flex-shrink-0 w-80 relative flex flex-col items-center justify-start p-10 bg-white border border-[#E3EAF5] rounded-[20px] min-h-[366px] transition-all duration-300 hover:border-[#0F2A4F] opacity-70"
-                  style={{ borderRadius: 20 }}
-                >
-                  <div className="mb-5 w-full h-40 flex items-center justify-center overflow-hidden rounded-lg">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </div>
-
-                  <h3
-                    className="text-xl font-bold text-[#0F2A4F] mb-3 text-center"
-                    style={{ fontWeight: 700 }}
-                  >
-                    {item.title}
-                  </h3>
-
-                  <p
-                    className="text-base text-[#475569] text-center"
-                    style={{ lineHeight: 1.6 }}
-                  >
-                    {item.desc}
-                  </p>
-                </Card>
-              ))}
-
-            </div>
+                  <p className="text-slate-500 text-sm">{item.desc}</p>
+                </div>
+              </Card>
+            ))}
           </div>
         </div>
-
       </div>
     </section>
   );

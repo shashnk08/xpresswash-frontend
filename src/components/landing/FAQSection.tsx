@@ -73,13 +73,15 @@ export function FAQSection() {
 
   const toggleFaq = (idx: number) => {
     setOpenIndexes((prev) =>
-      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx],
     );
   };
 
   return (
-    <section className="py-16 px-4 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold mb-8 text-center">Frequently Asked Questions (FAQ)</h2>
+    <section id="faq-section" className="py-16 px-4 max-w-2xl mx-auto">
+      <h2 className="text-2xl font-bold mb-8 text-center">
+        Frequently Asked Questions (FAQ)
+      </h2>
       <div className="space-y-4">
         {visibleFaqs.map((faq, idx) => (
           <div key={idx} className="border rounded-lg bg-white/80">
@@ -91,7 +93,9 @@ export function FAQSection() {
               <span>{openIndexes.includes(idx) ? "-" : "+"}</span>
             </button>
             {openIndexes.includes(idx) && (
-              <div className="px-4 pb-4 text-gray-700 whitespace-pre-line">{faq.answer}</div>
+              <div className="px-4 pb-4 text-gray-700 whitespace-pre-line">
+                {faq.answer}
+              </div>
             )}
           </div>
         ))}
@@ -100,7 +104,7 @@ export function FAQSection() {
         <div className="text-center mt-6">
           <button
             className="px-6 py-2 text-white rounded transition"
-            style={{ backgroundColor: '#4169E1', border: 'none' }}
+            style={{ backgroundColor: "#4169E1", border: "none" }}
             onClick={() => setShowAll(true)}
           >
             Show More
@@ -111,7 +115,7 @@ export function FAQSection() {
         <div className="text-center mt-6">
           <button
             className="px-6 py-2 text-white rounded transition"
-            style={{ backgroundColor: '#4169E1', border: 'none' }}
+            style={{ backgroundColor: "#4169E1", border: "none" }}
             onClick={() => {
               setShowAll(false);
               setOpenIndexes([]);
@@ -122,15 +126,21 @@ export function FAQSection() {
         </div>
       )}
       <div className="mt-10 text-center text-base">
-        Still have questions?<br />
+        Still have questions?
+        <br />
         <div className="flex justify-center items-center gap-2 mt-2">
           <span>
             Call us at
-            <a href="tel:8123911197" className="text-primary font-semibold ml-1">8123911197</a>
+            <a
+              href="tel:9535443799"
+              className="text-primary font-semibold ml-1"
+            >
+              9535443799
+            </a>{" "}
             or message us on
           </span>
           <a
-            href="https://wa.me/918123911197"
+            href="https://wa.me/9535443799?text=Hello%20Xpress%20Wash%2C%20I%20have%20a%20question%20about%20your%20services."
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-green-500 font-semibold"
@@ -138,7 +148,7 @@ export function FAQSection() {
             <FaWhatsapp className="text-xl" />
             WhatsApp
           </a>
-          <span>. We’re happy to help!</span>
+          <span>We’re happy to help!</span>
         </div>
       </div>
       <div className="mt-3 flex justify-center items-center gap-2">

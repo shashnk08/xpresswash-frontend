@@ -1,111 +1,116 @@
-import { Card } from "@/components/ui/Card";
 import { useEffect, useRef } from "react";
 
 const items = [
   {
     image: "/media/service-slide-2.webp",
     title: "Doorstep Convenience",
-    desc: "We come to your location. No driving, no waiting, no wasting time.",
+    desc: "We come to you. No effort required.",
   },
   {
     image: "/media/istockphoto-1349262258-612x612.jpg",
     title: "Professional Equipment",
-    desc: "Advanced machines and tools for a thorough and safe clean.",
+    desc: "Every detail handled right.",
   },
   {
     image: "/media/image.png",
-    title: "Eco-Friendly Methods",
-    desc: "Minimal water usage and safe cleaning products for your car and the environment.",
+    title: "Eco-Friendly",
+    desc: "Minimal water. Maximum care.",
   },
   {
     image: "/media/Headlight-Restoration-p-1080.jpg",
-    title: "Time-Saving Service",
-    desc: "Book a slot at your preferred time and get your car cleaned while you relax.",
+    title: "Time Efficient",
+    desc: "Done while you relax.",
   },
   {
     image: "/media/pexels-introspectivedsgn-4876641.jpg",
-    title: "Quality You Can See",
-    desc: "Trained staff, attention to detail, and a spotless finish every time.",
+    title: "Visible Quality",
+    desc: "Results you notice instantly.",
   },
   {
     image: "/media/i2.jpg",
-    title: "Monthly Plans Available",
-    desc: "Regular car care at discounted prices with priority service.",
+    title: "Priority Plans",
+    desc: "Consistent premium care.",
   },
 ];
 
 export function ValueProps() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const container = containerRef.current;
-      const track = trackRef.current;
-      if (!container || !track) return;
+    const container = scrollRef.current;
+    if (!container) return;
 
-      const rect = container.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
+    let animationFrame: number;
+    const speed = 0.6; // smooth speed
 
-      // progress from 0 → 1
-      const progress = Math.min(
-        Math.max((windowHeight - rect.top) / (windowHeight + rect.height), 0),
-        1,
-      );
+    const animate = () => {
+      if (!container) return;
 
-      const maxScroll = track.scrollWidth - window.innerWidth;
+      container.scrollLeft += speed;
 
-      track.style.transform = `translateX(-${progress * maxScroll}px)`;
+      if (container.scrollLeft >= container.scrollWidth / 2) {
+        container.scrollLeft = 0;
+      }
+
+      animationFrame = requestAnimationFrame(animate);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    animationFrame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrame);
   }, []);
 
   return (
-    <section className="bg-slate-50">
-      {/* BIG HEIGHT to allow scroll */}
-      <div ref={containerRef} className="relative h-[200vh]">
-        {/* Sticky viewport */}
-        <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
-          {/* Heading */}
-          <div className="max-w-7xl mx-auto px-4 md:px-8 mb-10">
-            <h2 className="text-4xl md:text-6xl font-extrabold text-[#0b1f3b]">
-              WHY CHOOSE <span className="text-blue-600">XPRESS</span>?
-            </h2>
-          </div>
+    <section className="py-20 bg-gradient-to-b from-white to-slate-50 overflow-hidden">
+      {/* Heading */}
+      <div className="text-center mb-14 px-6 md:px-10">
+        <h2 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight">
+          Your car deserves better
+        </h2>
+        <p className="text-gray-500 mt-3 text-sm md:text-base">
+          Effortless cleaning. Premium care.
+        </p>
+      </div>
 
-          {/* Horizontal track */}
-          <div ref={trackRef} className="flex gap-8 px-8 will-change-transform">
-            {items.map((item, idx) => (
-              <Card
-                key={idx}
-                className="
-                  flex-shrink-0 w-[300px] md:w-[350px]
-                  bg-white border border-slate-200
-                  rounded-2xl shadow-md
-                  transition-all duration-500
-                  hover:scale-105 hover:-translate-y-2 hover:shadow-2xl
-                  group overflow-hidden
-                "
-              >
-                <div className="h-44 overflow-hidden">
+      {/* Carousel wrapper (for spacing + fade effect) */}
+      <div className="relative">
+        {/* Left fade */}
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-10 md:w-16 bg-gradient-to-r from-white to-transparent z-10" />
+
+        {/* Right fade */}
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-10 md:w-16 bg-gradient-to-l from-white to-transparent z-10" />
+
+        {/* Carousel */}
+        <div
+          ref={scrollRef}
+          className="flex gap-5 px-6 md:px-10 overflow-hidden"
+        >
+          {[...items, ...items].map((item, idx) => (
+            <div
+              key={idx}
+              className="min-w-[220px] sm:min-w-[260px] md:min-w-[300px] flex-shrink-0"
+            >
+              <div className="bg-white rounded-2xl shadow-md overflow-hidden transition-transform duration-500 hover:scale-105">
+                {/* Image */}
+                <div className="h-36 sm:h-40 md:h-44 overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover"
                   />
                 </div>
 
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0F2A4F] mb-2">
+                {/* Content */}
+                <div className="p-4">
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-900">
                     {item.title}
                   </h3>
-                  <p className="text-slate-500 text-sm">{item.desc}</p>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    {item.desc}
+                  </p>
                 </div>
-              </Card>
-            ))}
-          </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

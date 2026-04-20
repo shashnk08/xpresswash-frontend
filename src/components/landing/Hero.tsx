@@ -23,12 +23,15 @@ export function Hero() {
     }, 2500);
 
     return () => clearInterval(interval);
-  }, []);
+  });
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
     const { left, top } = containerRef.current.getBoundingClientRect();
-    containerRef.current.style.setProperty("--mouse-x", `${e.clientX - left}px`);
+    containerRef.current.style.setProperty(
+      "--mouse-x",
+      `${e.clientX - left}px`,
+    );
     containerRef.current.style.setProperty("--mouse-y", `${e.clientY - top}px`);
   };
 
@@ -73,7 +76,6 @@ export function Hero() {
         >
           Premium Detailing Service!
           <br />
-
           <AnimatePresence mode="wait">
             <motion.span
               key={headlines[index]}
@@ -86,7 +88,6 @@ export function Hero() {
               {headlines[index]}
             </motion.span>
           </AnimatePresence>
-
         </motion.h1>
 
         <motion.p
@@ -95,8 +96,8 @@ export function Hero() {
           transition={{ delay: 0.1, duration: 0.4 }}
           className="mt-6 text-lg text-white max-w-xl"
         >
-          Hassle-free car servicing with transparent pricing, expert technicians,
-          and real-time booking — all from your phone.
+          Hassle-free car servicing with transparent pricing, expert
+          technicians, and real-time booking — all from your phone.
         </motion.p>
 
         <motion.div
@@ -107,10 +108,14 @@ export function Hero() {
         >
           <Button
             variant="secondary"
-            style={{ backgroundColor: '#4169E1', color: '#fff', border: 'none' }}
+            style={{
+              backgroundColor: "#4169E1",
+              color: "#fff",
+              border: "none",
+            }}
             onClick={() => {
               const section = document.querySelector(
-                "section[id='popular-services']"
+                "section[id='popular-services']",
               );
               if (section) {
                 section.scrollIntoView({ behavior: "smooth" });
